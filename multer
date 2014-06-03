@@ -1,0 +1,42 @@
+#!/bin/bash 
+
+#debug=true
+debug=false
+hostmask=$1
+action=$2
+
+#check for debug enabled
+
+if $debug; then
+	echo 'DEBUUUUUG'
+	echo 'mask is' $hostmask ', action is' $action
+	echo $#
+fi
+
+#check for CSV sourced
+
+if ! [ $OS_USERNAME ]; then 
+	echo 'source your project CSV first!'
+	exit 1
+fi
+
+#help || run nova
+
+if ! [ "$#" == "2" ]
+	then
+			echo '
+		about:
+			multer calls nova for each hosts matching host_mask in output of nova list with specified action
+		usage:
+			multer hosts_mask action
+		where:
+			host_mask is regexp that host could match (status, name, etc)
+			action is action to make to subject hosts'
+			exit 1
+	else
+		for host in `nova list | grep $hostmask | awk '{print $2}'`
+		do
+			echo 'nova' $action $host
+			nova $action $host
+		done
+fi
