@@ -26,20 +26,28 @@ if ! [ "$#" == "2" ]
 	then
 			echo '
 		about:
-			multer calls nova for each hosts matching host_mask in output of nova list with specified action
+			multer calls nova for each hosts matching host_mask in output of $(nova list) and makes on them specified action
 		usage:
 			multer hosts_mask action
-				(to run action for hosts)
+				to run action for hosts
 				OR
-			multer searh regex
-				(to list hosts matched regex)
-		where:
-			host_mask is regexp that host could match (status, name, etc)
-			action is action to make to subject hosts'
+			multer (s || searh) regex
+				to list hosts matched regex
+				OR
+			multer (w || watch) (a || all || name of node)
+				to watch for instances on given node
+
+		multer always expects for two arguments. '	
 			exit 1
 
-	elif [ "$1" == "search" ]
+	elif [ "$1" == "s" ] || [ "$1" == "search" ]
 		then nova list | grep $2
+
+	elif [ "$1" == "w" ] || [ "$1" == "watch" ]
+		then if [ "$2" == "a" ] || [ "$2" == "all" ]
+			then watch -n0.1 "nova list --all-tenants 1"
+			else watch -n0.1 "nova list --all-tenants 1 --host '$2'"
+		fi
 
 	else
 		for host in `nova list | grep $hostmask | awk '{print $2}'`
