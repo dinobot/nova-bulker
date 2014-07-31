@@ -36,18 +36,21 @@ if ! [ "$#" == "2" ]
 				OR
 			multer (w || watch) (a || all || name of node)
 				to watch for instances on given node
+			multer (t || tenant) instance_id
 
 		multer always expects for two arguments. '	
 			exit 1
 
 	elif [ "$1" == "s" ] || [ "$1" == "search" ]
-		then nova list | grep $2
+		then nova list --all-tenants 1 | grep $2
 
 	elif [ "$1" == "w" ] || [ "$1" == "watch" ]
 		then if [ "$2" == "a" ] || [ "$2" == "all" ]
 			then watch -n0.1 "nova list --all-tenants 1"
 			else watch -n0.1 "nova list --all-tenants 1 --host '$2'"
 		fi
+	elif [ "$1" == "t" ] || [ "$1" == "tenant" ]
+		then keystone tenant-list | grep $(nova show $2 | grep tenant_id | tr '|' ' ' | awk '{print $2}') | awk '{print $4}'
 
 	else
 		for host in `nova list | grep $hostmask | awk '{print $2}'`
