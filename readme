@@ -3,7 +3,8 @@ multer is a tool to run some single actoin on whole bunch of openstack instances
 built-in help:
 	
 		about:
-			multer calls nova for each hosts matching host_mask in output of $(nova list) and makes on them specified action
+			multer calls nova for each hosts matching host_mask in output 
+			of $(nova list) and makes on them specified action
 		usage:
 			multer hosts_mask action
 				to run action for hosts
