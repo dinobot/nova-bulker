@@ -13,5 +13,6 @@ built-in help:
 				OR
 			multer (w || watch) (a || all || name of node)
 				to watch for instances on given node
-
+			multer (t || tenant) instance_id
+				show tenant where instance hosted
 		multer always expects for two arguments. 
