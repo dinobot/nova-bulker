@@ -10,11 +10,11 @@ built-in help:
 			multer hosts_mask action
 				to run action for hosts
 				OR
-			multer (s || searh) regex
-				to list hosts matched regex
+			multer (s || search) regex
+				to list hosts matching regex
 				OR
 			multer (w || watch) (a || all || name of node)
 				to watch for instances on given node
 			multer (t || tenant) instance_id
 				show tenant where instance hosted
-		multer always expects for two arguments. 
+		multer cli expects exactly two arguments in all cases.
